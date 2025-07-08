@@ -1,0 +1,107 @@
+Hello world: 1 ops, 18.787µs/op
+Hello world: 100 ops, 11.371µs/op
+Hello world: 10000 ops, 1.815µs/op
+Hello world: 660680 ops, 1.339µs/op
+Hello world: 896050 ops, 1.355µs/op
+number1221: 1 ops, 16.812µs/op
+number1221: 100 ops, 11.123µs/op
+number1221: 10000 ops, 1.754µs/op
+number1221: 683854 ops, 1.328µs/op
+number1221: 903186 ops, 1.309µs/op
+number666: 1 ops, 38.715µs/op
+number666: 100 ops, 14.878µs/op
+number666: 10000 ops, 1.962µs/op
+number666: 611096 ops, 1.301µs/op
+number666: 921692 ops, 1.308µs/op
+Hello world: 1 ops, 136.964µs/op
+Hello world: 100 ops, 7.041µs/op
+Hello world: 10000 ops, 1.457µs/op
+Hello world: 822549 ops, 976ns/op
+Hello world: 1228924 ops, 965ns/op
+number1221: 1 ops, 10.941µs/op
+number1221: 100 ops, 1.518µs/op
+number1221: 10000 ops, 1.129µs/op
+number1221: 1000000 ops, 767ns/op
+number1221: 1563594 ops, 733ns/op
+number666: 1 ops, 8.677µs/op
+number666: 100 ops, 1.046µs/op
+number666: 10000 ops, 955ns/op
+number666: 1000000 ops, 731ns/op
+number666: 1639363 ops, 747ns/op
+Hello world: 1 ops, 30.779µs/op
+Hello world: 100 ops, 4.429µs/op
+Hello world: 10000 ops, 1.024µs/op
+Hello world: 1000000 ops, 759ns/op
+Hello world: 1580289 ops, 770ns/op
+number1221: 1 ops, 12.514µs/op
+number1221: 100 ops, 6.513µs/op
+number1221: 10000 ops, 920ns/op
+number1221: 1000000 ops, 719ns/op
+number1221: 1668558 ops, 718ns/op
+number666: 1 ops, 13.036µs/op
+number666: 100 ops, 6.106µs/op
+number666: 10000 ops, 843ns/op
+number666: 1000000 ops, 724ns/op
+number666: 1657380 ops, 733ns/op
+Hello world: 1 ops, 16.142µs/op
+Hello world: 100 ops, 10.086µs/op
+Hello world: 10000 ops, 1.993µs/op
+Hello world: 601753 ops, 1.399µs/op
+Hello world: 857674 ops, 1.436µs/op
+number1221: 1 ops, 17.203µs/op
+number1221: 100 ops, 13.355µs/op
+number1221: 10000 ops, 1.967µs/op
+number1221: 609720 ops, 1.514µs/op
+number1221: 792094 ops, 1.385µs/op
+number666: 1 ops, 18.576µs/op
+number666: 100 ops, 12.809µs/op
+number666: 10000 ops, 1.805µs/op
+number666: 664184 ops, 1.443µs/op
+number666: 831136 ops, 1.389µs/op
+Hello world: 1 ops, 80.876µs/op
+Hello world: 100 ops, 11.342µs/op
+Hello world: 10000 ops, 1.218µs/op
+Hello world: 983610 ops, 985ns/op
+Hello world: 1217131 ops, 925ns/op
+number1221: 1 ops, 20.71µs/op
+number1221: 100 ops, 2.062µs/op
+number1221: 10000 ops, 1.096µs/op
+number1221: 1000000 ops, 847ns/op
+number1221: 1416116 ops, 804ns/op
+number666: 1 ops, 16.863µs/op
+number666: 100 ops, 1.215µs/op
+number666: 10000 ops, 1.119µs/op
+number666: 1000000 ops, 750ns/op
+number666: 1598396 ops, 720ns/op
+
+Hello world: 1 ops, 24.407µs/op
+Hello world: 100 ops, 7.428µs/op
+Hello world: 10000 ops, 1.243µs/op
+Hello world: 963578 ops, 832ns/op
+Hello world: 1441312 ops, 829ns/op
+number1221: 1 ops, 11.352µs/op
+number1221: 100 ops, 9.129µs/op
+number1221: 10000 ops, 962ns/op
+number1221: 1000000 ops, 760ns/op
+number1221: 1577504 ops, 727ns/op
+number666: 1 ops, 8.617µs/op
+number666: 100 ops, 7.012µs/op
+number666: 10000 ops, 826ns/op
+number666: 1000000 ops, 826ns/op
+number666: 1452732 ops, 748ns/op
+
+Hello world: 1 ops, 25.379µs/op
+Hello world: 100 ops, 11.684µs/op
+Hello world: 10000 ops, 1.942µs/op
+Hello world: 617498 ops, 1.435µs/op
+Hello world: 835960 ops, 1.435µs/op
+number1221: 1 ops, 31.04µs/op
+number1221: 100 ops, 12.617µs/op
+number1221: 10000 ops, 1.975µs/op
+number1221: 607089 ops, 1.356µs/op
+number1221: 884902 ops, 1.389µs/op
+number666: 1 ops, 12.745µs/op
+number666: 100 ops, 11.494µs/op
+number666: 10000 ops, 1.814µs/op
+number666: 661105 ops, 1.536µs/op
+
