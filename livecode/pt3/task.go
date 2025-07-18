@@ -25,7 +25,7 @@ type Task struct {
 	Status      TaskStatus `json:"status"`
 	CreatedAt   time.Time  `json:"createdAt"`
 	UpdatedAt   time.Time  `json:"updatedAt"`
-	Cfg         Config
+	Cfg         Config     `json:"config"`
 }
 
 func NewTask(id int64, description string) *Task {
