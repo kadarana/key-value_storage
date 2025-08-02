@@ -9,17 +9,6 @@ import (
 	"go.uber.org/zap"
 )
 
-/*
-Добавить возможность сохранения и чтения состояния нашей базы данных на диск/с диска. Сохранение на диск должно происходить перед выходом из main, чтение должно происходить перед началом работы, в начале main. Сами команды по работе с базой идут в блоке между загрузкой предыдущего состояния и сохранением текущего. Для сохранения и чтения с диска рекомендуется использовать json-encoded файл.
-
-	main(){
-	    // read from disk if exists
-
-	    // do operations
-
-	    // save to disk
-	}
-*/
 type storageFile struct {
 	Inner map[string]Value    `json:"inner"`
 	List  map[string][]string `json:"list"`
@@ -62,6 +51,7 @@ func (s *Storage) LoadFromFile(path string) error {
 	if err != nil {
 		return nil
 	}
+	
 	defer file.Close()
 
 	jsonData, err := io.ReadAll(file)
@@ -77,10 +67,11 @@ func (s *Storage) LoadFromFile(path string) error {
 	s.inner = data.Inner
 	s.list = make(map[string]*List)
 
-	for k, v := range s.list {
+	for k, v := range data.List {
 		s.list[k] = &List{elem: v}
 	}
 
 	fmt.Println(jsonData)
 	s.logger.Info("Stotage loaded fron file", zap.String("file", path))
+	return nil
 }

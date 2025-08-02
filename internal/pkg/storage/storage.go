@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strconv"
 	"strings"
+	"sync"
 
 	"go.uber.org/zap"
 )
@@ -22,6 +23,7 @@ type Storage struct {
 	inner  map[string]Value
 	list   map[string]*List
 	logger *zap.Logger
+	mu     *sync.Mutex
 }
 
 func NewStorage() (Storage, error) {
@@ -36,6 +38,7 @@ func NewStorage() (Storage, error) {
 		inner:  make(map[string]Value),
 		list:   make(map[string]*List),
 		logger: logger,
+		mu:     *make(sync.Mutex),
 	}, nil
 }
 
