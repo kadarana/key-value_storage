@@ -12,7 +12,7 @@ func main() {
 	}
 
 	s.Set("key1", "value1")
-	s.Set("key2", "1337")
+	s.Set("key2", 133.7)
 
 	fmt.Println(*s.Get("key1"))
 	fmt.Println(*s.Get("key2"))
