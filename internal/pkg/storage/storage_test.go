@@ -3,7 +3,6 @@ package storage
 import (
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -12,13 +11,13 @@ import (
 type TestCase struct {
 	name  string
 	key   string
-	value string
+	value any
 }
 
 func TestSetGet(t *testing.T) {
 	cases := []TestCase{
 		{"1", "first", "world"},
-		{"2", "second", "2"},
+		{"2", "second", 2},
 		{"3", "third", "3d"},
 	}
 
@@ -43,7 +42,7 @@ func TestSetGet(t *testing.T) {
 func TestKind(t *testing.T) {
 	cases := []TestCase{
 		{"1", "first", "world"},
-		{"2", "second", "2"},
+		{"2", "second", 2},
 		{"3", "third", "3d"},
 	}
 
@@ -54,14 +53,10 @@ func TestKind(t *testing.T) {
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
 			s.Set(c.key, c.value)
-			var kind string
-			_, err := strconv.Atoi(c.value)
-			if err != nil {
-				kind = "S"
-			} else {
-				kind = "D"
-			}
-			if s.inner[c.key].valueType != kind {
+			var kind Kind
+			kind = getType(c.value)
+
+			if s.inner[c.key].ValueType != kind {
 				t.Errorf("kinds not equal")
 			}
 		})
@@ -70,8 +65,8 @@ func TestKind(t *testing.T) {
 
 var casebench = []TestCase{
 	{"Hello world", "Hello", "world"},
-	{"number1221", "number", "1221"},
-	{"number666", "number", "666"},
+	{"number1221", "number", 1221},
+	{"number666", "number", 666},
 }
 
 func BenchmarkGet(b *testing.B) {

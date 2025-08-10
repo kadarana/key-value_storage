@@ -1,6 +1,9 @@
 package storage
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
 type testCase struct {
 	name  string
@@ -70,4 +73,17 @@ func TestSetGetWithType(t *testing.T) {
 		})
 	}
 
+}
+
+// нужна синхронизация
+func TestRace(t *testing.T) {
+	m := make(map[string]string)
+
+	for i := 0; i < 1000; i++ {
+		go func() {
+			m["x"] = "g"
+		}()
+	}
+
+	time.Sleep(1 * time.Second)
 }

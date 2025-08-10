@@ -18,7 +18,7 @@ type Entry struct {
 }
 
 type EntryArray struct {
-	Value []string `json:"value"`
+	Value []any `json:"value"`
 }
 
 type EntryList struct {
@@ -26,19 +26,15 @@ type EntryList struct {
 }
 
 type EntryLSET struct {
-	Index   int    `json:"index"`
-	Element string `json:"element"`
+	Index   int `json:"index"`
+	Element any `json:"element"`
 }
 
 type EntryLGET struct {
 	Index int `json:"index"`
 }
 
-// type EntryArray struct {
-// 	Value []string `json:"value"`
-// }
-
-func New(host string, st *storage.Storage) *Server {
+func New(st *storage.Storage) *Server {
 	s := &Server{
 		host:    ":8090",
 		storage: st,
@@ -53,9 +49,6 @@ func (r *Server) newAPI() *gin.Engine {
 	engine.GET("health", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, "OK")
 	})
-
-	// engine.PUT("/scalar/set/:key", r.handlerSet)
-	// engine.GET("/scalar/get/:key", r.handlerGet)
 
 	engine.POST("/scalar/set/:key", r.handlerSet)
 	engine.GET("/scalar/get/:key", r.handlerGet)
@@ -82,7 +75,7 @@ func (r *Server) handlerSet(ctx *gin.Context) {
 		return
 	}
 
-	r.storage.Set(key, v.Value.(string))
+	r.storage.Set(key, v.Value)
 	ctx.Status(http.StatusOK)
 }
 
