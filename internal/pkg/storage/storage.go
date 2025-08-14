@@ -2,7 +2,6 @@ package storage
 
 import (
 	"errors"
-	"math"
 	"sync"
 
 	"go.uber.org/zap"
@@ -21,46 +20,17 @@ type Value struct {
 	ValueType Kind `json:"valueType"`
 }
 
-func newValue(val any) (Value, error) {
-	valueType := getType(val)
-	if valueType != kindUndefind {
-		return Value{
-			Val:       val,
-			ValueType: valueType,
-		}, nil
-	}
-	return Value{}, errors.New("Undefined ValueType")
-}
-
-func getType(val any) Kind {
-	switch val.(type) {
-	case int:
-		return kindInt
-	case float64:
-		if isFloatInt(val) {
-			return kindInt
-		}
-		return kindUndefind
-	case string:
-		return kindString
-	default:
-		return kindUndefind
-	}
-}
-
-func isFloatInt(num any) bool {
-	return num.(float64) == math.Trunc(num.(float64))
-}
-
 type List struct {
 	Elem []any `json:"elements"`
 }
 
 type Storage struct {
-	inner  map[string]Value
-	list   map[string]*List
-	logger *zap.Logger
-	mu     *sync.Mutex
+	inner       map[string]Value
+	list        map[string]*List
+	innerMap    map[string]map[string]Value
+	logger      *zap.Logger
+	mu          *sync.Mutex
+	innerExpire map[string]int64
 }
 
 func NewStorage() (Storage, error) {
@@ -72,11 +42,48 @@ func NewStorage() (Storage, error) {
 	logger.Info("storage created")
 
 	return Storage{
-		inner:  make(map[string]Value),
-		list:   make(map[string]*List),
-		logger: logger,
-		mu:     new(sync.Mutex),
+		inner:       make(map[string]Value),
+		list:        make(map[string]*List),
+		innerMap:    make(map[string]map[string]Value),
+		logger:      logger,
+		mu:          new(sync.Mutex),
+		innerExpire: make(map[string]int64),
 	}, nil
+}
+
+func (r Storage) HSET(key string, field string, value any) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	newVal, err := newValue(value)
+	if err != nil {
+		r.logger.Error(err.Error())
+		return err
+	}
+
+	_, ok := r.innerMap[key]
+	if !ok {
+		r.innerMap[key] = make(map[string]Value)
+	}
+	r.innerMap[key][field] = newVal
+	r.innerExpire[key] = 0
+	return nil
+}
+
+func (r Storage) HGET(key string, field string) *any {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	res, ok := r.hget(key, field)
+
+	if !ok {
+		r.logger.Error("KeyError",
+			zap.String("Wrong key", key),
+		)
+		return nil
+	}
+
+	return &res.Val
 }
 
 func (r Storage) Set(key string, value any) error {
@@ -255,13 +262,6 @@ func (s *Storage) LPOP(key string, count ...int) ([]any, error) {
 
 }
 
-func convertIndex(index int, length int) int {
-	if index < 0 {
-		index = length + index
-	}
-
-	return index
-}
 
 func (s *Storage) RPOP(key string, count ...int) ([]any, error) {
 
@@ -319,21 +319,6 @@ func (s *Storage) RPOP(key string, count ...int) ([]any, error) {
 	return nil, errors.New("wrong number of arguments")
 }
 
-func normalizeIndex(index, length int) int {
-	if index < 0 {
-		index = length + index
-		if index < 0 {
-			index = 0
-		}
-	}
-	return index
-}
-
-func reverse(slice []any) {
-	for i, j := 0, len(slice)-1; i < j; i, j = i+1, j-1 {
-		slice[i], slice[j] = slice[j], slice[i]
-	}
-}
 
 func (s *Storage) LSET(key string, index int, element any) (any, error) {
 

@@ -27,6 +27,7 @@ func TestHealthCheckHandler(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, w.Code)
 }
+
 func TestSET(t *testing.T) {
 	store, err := storage.NewStorage()
 	if err != nil {
@@ -85,6 +86,59 @@ func TestGET(t *testing.T) {
 		assert.Equal(t, val.Value, testVals[i])
 	}
 
+}
+
+func TestHSET(t *testing.T) {
+	store, err := storage.NewStorage()
+	if err != nil {
+		t.Errorf("Initialize error")
+	}
+	serve := New(&store)
+
+	testkeys := []string{"key1", "key2", "key3"}
+	testVals := []any{123, "val2", 123.05}
+	expectedCodes := []any{http.StatusOK, http.StatusOK, http.StatusBadGateway}
+	for idx, key := range testkeys {
+		testVal := Entry{
+			Value: testVals[idx],
+		}
+		jsonVal, _ := json.MarshalIndent(testVal, "", "\t")
+		w := httptest.NewRecorder()
+		req, _ := http.NewRequest(http.MethodPost, "/hash/set/"+key+"/"+key, bytes.NewBuffer(jsonVal))
+		serve.newAPI().ServeHTTP(w, req)
+		fmt.Print(w)
+		assert.Equal(t, expectedCodes[idx], w.Code)
+	}
+}
+
+func TestHGET(t *testing.T) {
+	store, err := storage.NewStorage()
+	if err != nil {
+		t.Errorf("Initialize error")
+	}
+	serve := New(&store)
+
+	testkeys := []string{"key1", "key2", "key3"}
+	testVals := []any{float64(123), "val2", float64(1234)}
+
+	for idx, key := range testkeys {
+		testVal := Entry{
+			Value: testVals[idx],
+		}
+		jsonVal, _ := json.MarshalIndent(testVal, "", "\t")
+		w := httptest.NewRecorder()
+		req, _ := http.NewRequest(http.MethodPost, "/hash/set/"+key+"/"+key, bytes.NewBuffer(jsonVal))
+		serve.newAPI().ServeHTTP(w, req)
+
+		req, _ = http.NewRequest(http.MethodGet, "/hash/get/"+key+"/"+key, nil)
+		serve.newAPI().ServeHTTP(w, req)
+
+		var val Entry
+		json.Unmarshal(w.Body.Bytes(), &val)
+
+		assert.Equal(t, http.StatusOK, w.Code)
+		assert.Equal(t, val.Value, testVals[idx])
+	}
 }
 
 func TestLPUSH(t *testing.T) {
